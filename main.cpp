@@ -39,4 +39,4 @@ void draw()
 	glFlush();
 }
 
-//g++-5 -framework GLUT -framework OpenGL -framework Cocoa Vetor.cpp main.cpp -o main
+//g++-5 -framework GLUT -framework OpenGL -framework Cocoa Vetor.cpp main.cpp -o main.out
