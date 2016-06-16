@@ -1,6 +1,5 @@
 #include "Vetor.h"
-#include <math.h>
-#include <iostream>
+#include <cmath>
 
 Vetor::Vetor()
 {
