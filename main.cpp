@@ -2,6 +2,7 @@
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
 #include <stdlib.h>
+#include "Vetor.h"
 
 void draw();
 void key_press(unsigned char key, int x, int y);
