@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Mesh.h"
+#include "Util.h"
 
 class SDLReader
 {

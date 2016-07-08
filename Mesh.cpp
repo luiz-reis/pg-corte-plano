@@ -30,7 +30,7 @@ void Mesh::add_normal(Vetor normal)
 	
 }
 
-void Mesh::add_triangle(int va, int vb, int vc, int na, int nb, int nc)
+void Mesh::add_triangle(int va, int vb, int vc)
 {
 	
 }

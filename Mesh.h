@@ -30,7 +30,7 @@ public:
 	
 	void add_vertex(Vetor vertex);
 	void add_normal(Vetor normal);
-	void add_triangle(int va, int vb, int vc, int na, int nb, int nc);	
+	void add_triangle(int va, int vb, int vc);	
 };
 
 #endif
