@@ -20,7 +20,7 @@ public:
 	Scene(Camera *camera);
 	~Scene();
 	
-	Camera& get_camera() const;
+	Camera* get_camera() const;
 	void set_camera(Camera *camera);
 	
 	void add_light(Light *light);
