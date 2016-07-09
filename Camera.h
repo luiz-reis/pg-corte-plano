@@ -7,16 +7,23 @@
 class Camera
 {
 private:
-	float near, far, aspect;
-	Vetor center, up, forward, z;
-	Matrix4 projection, view;
-	
-	void build_matrixs();
+	float d, hx, hy;
+	float resx, resy;
+	Vetor C, N, V, up;
 public:
-	Camera(Vetor center, Vetor up, Vetor forward, float near, float far, float aspect);
+	Camera(Vetor C, Vetor N, Vetor V, float d, float hx, float hy);
 	~Camera();
 	
-	Matrix4 get_projection() const;
+	int get_resx() const;
+	int get_resy() const;
+	
+	void set_screen_res(float resx, float resy);
+	
+	Vetor world_to_view(Vetor point);
+	Vetor world_to_view(float x, float y, float z);
+	
+	Vetor view_to_screen(Vetor point);
+	Vetor view_to_screen(float x, float y, float z);
 };
 
 #endif

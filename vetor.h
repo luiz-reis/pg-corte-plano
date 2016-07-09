@@ -21,6 +21,11 @@ public:
 	friend Vetor operator+(Vetor lhs, const Vetor& rhs);
 	Vetor& operator+=(const Vetor& rhs);
 	
+	friend Vetor operator-(const Vetor &lhs);
+	
+	friend Vetor operator-(Vetor lhs, const Vetor& rhs);
+	Vetor& operator-=(const Vetor& rhs);
+	
 	friend Vetor operator*(Vetor lhs, const Vetor& rhs); // produto vetorial
 	Vetor& operator*=(const Vetor& rhs);
 	

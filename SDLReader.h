@@ -6,15 +6,14 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Mesh.h"
-#include "Util.h"
 
 class SDLReader
 {
 private:
-	static void read_object(string line, Mesh &mesh);
-	static void read_camera(string line, Camera &camera);
-	static void read_light(string line, Light &light);
-	static void read_plane(string line, Plane &plane);
+	static Mesh* read_object(string line);
+	static Camera* read_camera(string line);
+	static Light* read_light(string line);
+	static Plane* read_plane(string line);
 public:
 	static void read_sdl(string filename, Scene &scene);
 };

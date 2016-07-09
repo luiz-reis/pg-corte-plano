@@ -1,22 +1,22 @@
 #include "Camera.h"
 #include <cmath>
 
-Camera::Camera(Vetor center, Vetor up, Vetor forward, float near, float far, float aspect)
+Camera::Camera(Vetor C, Vetor N, Vetor V, float d, float hx, float hy)
 {
 	//center is a point 
-	this->center = center;
-	this->forward = forward;
-	this->near = near;
-	this->far = far;
-	this->aspect = aspect;
+	this->C = C;
+	this->N = N;
+	this->d = d;
+	this->hx = hx;
+	this->hy = hy;
+	this->resx = 0;
+	this->resy = 0;
 	
 	//build vectorial product between up and view
-	this->z = up * this->forward;
-	this->z.normalizar();
-	this->forward.normalizar();
-	this->up = this->z * this->forward;
-	
-	this->build_matrixs();
+	this->up = N * V;
+	this->up.normalizar();
+	this->N.normalizar();
+	this->V = this->N * this->up;
 }
 
 Camera::~Camera()
@@ -24,49 +24,49 @@ Camera::~Camera()
 	
 }
 
-void Camera::build_matrixs()
-{	
-	/* VIEW MATRIX */
-	Matrix4 t = {
-		vec4(1,0,0,0), 
-		vec4(0,1,0,0), 
-		vec4(0,0,1,0), 
-		vec4(-center.x,-center.y,-center.z,1)
-	};
-	
-	Matrix4 m = {
-		vec4(forward.x, up.x, z.x, 0), 
-		vec4(forward.y, up.y, z.y, 0), 
-		vec4(forward.z, up.z, z.z, 0), 
-		vec4(0,0,0,1)
-	};
-	
-/*	Matrix4 v = {
-		vec4(forward.x, up.x, z.x, 0), 
-		vec4(forward.y, up.y, z.y, 0), 
-		vec4(forward.z, up.z, z.z, 0), 
-		vec4(Vetor::p_escalar(forward, center), Vetor::p_escalar(up, center), Vetor::p_escalar(z, center), 1)
-	}; */
-	
-	this->view = m * t;
-	
-	/* PROJECTION MATRIX */
-	float left, right, top, bottom;
-	float fov = 45;
-	top = near * tan(M_PI/180 * fov/2);
-	bottom = -top;
-	right = top * aspect;
-	left = -right;
-	
-	this->projection = {
-		vec4(2*near/(right-left), 0, (right+left)/(right-left), 0),
-		vec4(0, 2*near/(top-bottom), (top+bottom)/(top-bottom), 0),
-		vec4(0, 0, -((far+near)/(far-near)), -(2*far*near/(far-near))),
-		vec4(0, 0, -1, 0)
-	}; 
+void Camera::set_screen_res(float resx, float resy)
+{
+	this->resx = resx;
+	this->resy = resy;
 }
 
-Matrix4 Camera::get_projection() const
+Vetor Camera::world_to_view(Vetor point)
 {
-	return this->projection;
+	Vetor temp = point - this->C;
+	float x = Vetor::p_escalar(this->up, temp);
+	float y = Vetor::p_escalar(this->V, temp);
+	float z = Vetor::p_escalar(this->N, temp);
+	
+	return Vetor(x, y, z); 
+}
+
+Vetor Camera::world_to_view(float x, float y, float z)
+{
+	world_to_view(Vetor(x, y, z));
+}
+
+int Camera::get_resx() const
+{
+	return this->resx;
+}
+
+int Camera::get_resy() const
+{
+	return this->resy;
+}
+
+Vetor Camera::view_to_screen(Vetor point)
+{
+	float x = (point.x * this->d) / (point.z * this->hx);
+	float y = (point.y * this->d) / (point.z * this->hy);
+	
+	x = (x + 1) * this->resx * 0.5f;
+	y = (1 - y) * this->resy * 0.5f;
+	
+	return Vetor(x, y, 0);
+}
+
+Vetor Camera::view_to_screen(float x, float y, float z)
+{
+	view_to_screen(Vetor(x, y, z));
 }

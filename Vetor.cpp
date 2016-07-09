@@ -15,7 +15,7 @@ Vetor::Vetor(float x, float y, float z)
 
 float Vetor::norma() const
 {
-	return sqrt(this->x * this->x + this->y * this->y);
+	return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 }
 
 void Vetor::m_escalar(float escalar)
@@ -27,7 +27,7 @@ void Vetor::m_escalar(float escalar)
 
 void Vetor::normalizar()
 {
-	m_escalar(1/norma());
+	m_escalar(1.0f/norma());
 }
 
 Vetor Vetor::m_escalar(const Vetor& vetor, const float escalar)
@@ -63,6 +63,26 @@ Vetor& Vetor::operator+=(const Vetor& rhs)
 Vetor operator+(Vetor lhs, const Vetor& rhs)
 {
 	lhs += rhs;
+	return lhs;
+}
+
+Vetor operator-(const Vetor &lhs)
+{
+	return Vetor::m_escalar(lhs, -1);
+}
+
+Vetor& Vetor::operator-=(const Vetor& rhs)
+{
+	this->x -= rhs.x;
+	this->y -= rhs.y;
+	this->z -= rhs.z;
+		
+	return *this;
+}
+
+Vetor operator-(Vetor lhs, const Vetor& rhs)
+{
+	lhs -= rhs;
 	return lhs;
 }
 

@@ -19,9 +19,9 @@ Scene* scene;
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);                 	// Initialize GLUT
-	window = glutCreateWindow("OpenGL Setup Test"); 	// Create a window with the given title
-	glutInitWindowSize(320, 320);   		// Set the window's initial width & height
+	glutInitWindowSize(800, 600);   		// Set the window's initial width & height
 	glutInitWindowPosition(50, 50); 		// Position the window's initial top-left corner
+	window = glutCreateWindow("OpenGL Setup Test"); 	// Create a window with the given title
 	glutDisplayFunc(draw); 					// Register display callback handler for window re-paint
 	glutKeyboardFunc(key_press);						//Register keyboard callback handler
 	initialize();
@@ -42,78 +42,27 @@ void key_press(unsigned char key, int x, int y)
 	}
 }
 
-void rad_sdl(string a, Scene &b)
-{
-	
-}
-
 void initialize()
 {
 	scene = new Scene();
-	SDLReader::read_sdl("arquivo.sdl", *scene);
+	SDLReader::read_sdl("exemplo.sdl", *scene);
 	
-	Camera *camera = new Camera(Vetor(0,0,-10),Vetor(0,1,0),Vetor(0,0,-1), 1, 100);
-	glMatrixMode(GL_PROJECTION);
-	//glLoadMatrixf(camera->get_projection());
-	delete camera;
-	
-}
+	int m_viewport[4];
+	glGetIntegerv( GL_VIEWPORT, m_viewport);
+	scene->get_camera()->set_screen_res(m_viewport[2], m_viewport[3]); //width x height
+	scene->set_buffer(m_viewport[2], m_viewport[3]); //width x height
 
-void draw_cube()
-{
-	glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
-	      // Top face (y = 1.0f)
-	      // Define vertices in counter-clockwise (CCW) order with normal pointing out
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f( 1.0f, 1.0f, -1.0f);
-	      glVertex3f(-1.0f, 1.0f, -1.0f);
-	      glVertex3f(-1.0f, 1.0f,  1.0f);
-	      glVertex3f( 1.0f, 1.0f,  1.0f);
- 
-	      // Bottom face (y = -1.0f)
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f( 1.0f, -1.0f,  1.0f);
-	      glVertex3f(-1.0f, -1.0f,  1.0f);
-	      glVertex3f(-1.0f, -1.0f, -1.0f);
-	      glVertex3f( 1.0f, -1.0f, -1.0f);
- 
-	      // Front face  (z = 1.0f)
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f( 1.0f,  1.0f, 1.0f);
-	      glVertex3f(-1.0f,  1.0f, 1.0f);
-	      glVertex3f(-1.0f, -1.0f, 1.0f);
-	      glVertex3f( 1.0f, -1.0f, 1.0f);
- 
-	      // Back face (z = -1.0f)
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f( 1.0f, -1.0f, -1.0f);
-	      glVertex3f(-1.0f, -1.0f, -1.0f);
-	      glVertex3f(-1.0f,  1.0f, -1.0f);
-	      glVertex3f( 1.0f,  1.0f, -1.0f);
- 
-	      // Left face (x = -1.0f)
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f(-1.0f,  1.0f,  1.0f);
-	      glVertex3f(-1.0f,  1.0f, -1.0f);
-	      glVertex3f(-1.0f, -1.0f, -1.0f);
-	      glVertex3f(-1.0f, -1.0f,  1.0f);
- 
-	      // Right face (x = 1.0f)
-	      glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	      glVertex3f(1.0f,  1.0f, -1.0f);
-	      glVertex3f(1.0f,  1.0f,  1.0f);
-	      glVertex3f(1.0f, -1.0f,  1.0f);
-	      glVertex3f(1.0f, -1.0f, -1.0f);
-	   glEnd();  // End of drawing color-cube
+	scene->draw();
 }
 
 void draw()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	draw_cube();
- 
+		
+	Camera *camera = scene->get_camera();	
+	glDrawPixels(camera->get_resx(), camera->get_resy(), GL_RGB, GL_FLOAT, scene->get_buffer());
+
 	glFlush();
 }
 
@@ -129,4 +78,4 @@ void update()
 
 
 
-//g++-5 -std=c++11 -framework GLUT -framework OpenGL -framework Cocoa Vetor.cpp Matrix4.cpp Color.cpp Util.h Plane.cpp  Material.cpp Light.cpp Mesh.cpp Camera.cpp Scene.cpp SDLReader.cpp main.cpp -o main.out
+//g++-5 -std=c++11 -framework GLUT -framework OpenGL -framework Cocoa Vetor.cpp Matrix4.cpp Color.cpp Util.h Plane.cpp  Material.cpp Light.cpp Mesh.cpp Triangle.cpp Camera.cpp Scene.cpp SDLReader.cpp main.cpp -o main.out -w

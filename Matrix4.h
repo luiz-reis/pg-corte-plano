@@ -1,6 +1,8 @@
 #ifndef MATRIX4_H
 #define MATRIX4_H
 
+#include <iostream>
+
 struct vec4
 {
     float values[4];
@@ -18,12 +20,17 @@ public:
     Matrix4();
     Matrix4(vec4 x, vec4 y, vec4 z, vec4 w);
 	
+	float * to_array() const;
+	Matrix4 get_transpose() const;
+	
 	const vec4& operator[](int index) const;
 	vec4& operator[](int index);
 	
 	friend Matrix4 operator*(Matrix4 m1, const Matrix4& m2);
 	friend vec4 operator*(const Matrix4& m, const vec4& v);
 	friend vec4 operator*(const vec4& v, const Matrix4& m);
+	
+	friend std::ostream& operator<< (std::ostream& out, const Matrix4& matrix);
 };
 
 #endif

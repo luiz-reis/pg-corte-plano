@@ -19,7 +19,8 @@ namespace Util
 		{
 			//lancar exception
 			cout << "Arquivo não encontrado." << endl;
-			return;
+			exit(1);
+//			return;
 		}
 
 		while(!reader.eof())
@@ -40,7 +41,7 @@ namespace Util
 		uniform_int_distribution<int> uni(min, max); // guaranteed unbiased
 	
 		return uni(rng);
-	}
+	}	
 	
 	int prime(int v)
 	{

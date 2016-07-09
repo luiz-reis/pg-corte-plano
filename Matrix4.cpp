@@ -50,6 +50,21 @@ vec4& Matrix4::operator[](int index)
     return columns[index];
 }
 
+float * Matrix4::to_array() const
+{
+	return (float *) ((void *) columns);
+}
+
+Matrix4 Matrix4::get_transpose() const
+{
+	return Matrix4(
+		vec4(columns[0][0], columns[1][0], columns[2][0], columns[3][0]),
+		vec4(columns[0][1], columns[1][1], columns[2][1], columns[3][1]),
+		vec4(columns[0][2], columns[1][2], columns[2][2], columns[3][2]),
+		vec4(columns[0][3], columns[1][3], columns[2][3], columns[3][3])
+	);
+}
+
 Matrix4 operator*(Matrix4 m1, const Matrix4& m2)
 {
 	vec4 X = m1 * m2[0];
@@ -78,4 +93,15 @@ vec4 operator*(const vec4& v, const Matrix4& m)
 	        v[0] * m[2][0] + v[1] * m[2][1] + v[2] * m[2][2] + v[3] * m[2][3],
 	        v[0] * m[3][0] + v[1] * m[3][1] + v[2] * m[3][2] + v[3] * m[3][3]
 	    );
+}
+
+std::ostream& operator<< (std::ostream& out, const Matrix4& matrix)
+{
+	for(int i = 0; i < 4; ++i)
+	{
+		for(int j = 0; j < 4; ++j)
+			std::cout << matrix.columns[i][j] << " ";
+		std::cout << std::endl;
+	}
+	return out;
 }
