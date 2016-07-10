@@ -237,8 +237,40 @@ void Scene::intersect_plane(Triangle t)
 	
 	Vetor p0, p1;
 	Vetor l0, l1;
-	
-	
+
+	float baixo, cima, r;
+
+	baixo = Vetor::p_escalar(n, (vb-va));
+	if(baixo != 0){
+		cima = Vetor::p_escalar(n, (v0-va));
+		r = cima/baixo;
+		if(r >= 0 && r <= 1){
+			l0 = va + Vetor::m_escalar(r, vb-va);
+		}
+	}
+
+	baixo = Vetor::p_escalar(n, (vc-va));
+	if(baixo != 0){
+		cima = Vetor::p_escalar(n, (v0-va));
+		r = cima/baixo;
+		if(r >= 0 && r <= 1){
+			if(l0 == null)
+				l0 = va + Vetor::m_escalar(r, vc-va);
+			else
+				l1 = va + Vetor::m_escalar(r, vc-va);
+		}
+	}
+
+	baixo = Vetor::p_escalar(n, (vc-vb));
+	if(baixo != 0){
+		cima = Vetor::p_escalar(n, (v0-vb));
+		r = cima/baixo;
+		if(r >= 0 && r <= 1){
+			l1 = va + Vetor::m_escalar(r, vc-vb);
+		}
+	}
+
+
 }
 
 void Scene::draw()
