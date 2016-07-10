@@ -45,6 +45,16 @@ Vetor Camera::world_to_view(float x, float y, float z)
 	world_to_view(Vetor(x, y, z));
 }
 
+Vetor Camera::world_to_screen(Vetor point)
+{
+	return view_to_screen(world_to_view(point));
+}
+
+Vetor Camera::world_to_screen(float x, float y, float z)
+{
+	world_to_screen(Vetor(x, y, z));
+}
+
 int Camera::get_resx() const
 {
 	return this->resx;

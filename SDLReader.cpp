@@ -114,6 +114,11 @@ void SDLReader::read_sdl(string filename, Scene &scene)
 				Plane *plane = read_plane(line.substr(2));
 				break;
 			}
+			case 'a':
+			{
+				
+				break;
+			}
 		}
 	});
 }

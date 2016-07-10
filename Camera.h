@@ -24,6 +24,9 @@ public:
 	
 	Vetor view_to_screen(Vetor point);
 	Vetor view_to_screen(float x, float y, float z);
+		
+	Vetor world_to_screen(Vetor point);
+	Vetor world_to_screen(float x, float y, float z);
 };
 
 #endif

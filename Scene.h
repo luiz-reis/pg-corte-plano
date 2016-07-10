@@ -17,9 +17,21 @@ private:
 	vector<Mesh *> meshs;
 	vector<Light *> lights;
 	float *buffer;
+	float *zbuffer;
 	Color ia;
+	
 	void scan_line(Triangle triangle);
+	void fillBottomFlatTriangle(Vetor v1, Vetor v2, Vetor v3, Triangle triangle);
+	void fillTopFlatTriangle(Vetor v1, Vetor v2, Vetor v3, Triangle triangle);
+	
 	Color ilumination(Vetor point, Vetor normal, Material material);
+	void phong(Vetor point, Triangle triangle);
+	
+	float get_val_zbuffer(int x, int y) const;
+	float get_val_zbuffer(Vetor point) const;
+	
+	void set_val_zbuffer(int x, int y, float val);
+	void set_val_zbuffer(Vetor point, float val);
 	
 public:
 	Scene();
@@ -29,8 +41,10 @@ public:
 	void set_buffer(int w, int h);
 	float* get_buffer() const;
 	
+	void set_la(Color ia);
+	
 	void set_pixel_color(int x, int y, Color color);
-	void set_pixel_color(Vetor p, Color color)
+	void set_pixel_color(Vetor p, Color color);
 	
 	Camera* get_camera() const;
 	void set_camera(Camera *camera);

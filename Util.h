@@ -10,9 +10,10 @@
 
 using namespace std;
 
-namespace Util
+class Util
 {	
-	void read_file(string filename, function<void(string)> callback)
+public:
+	static void read_file(string filename, function<void(string)> callback)
 	{
 		ifstream reader (filename.c_str());
 		if(!reader.is_open())
@@ -34,7 +35,7 @@ namespace Util
 		reader.close();
 	}
 	
-	int random(const int min, const int max) //min[included] max[included]
+	static int random(const int min, const int max) //min[included] max[included]
 	{
 		random_device rd;     // only used once to initialise (seed) engine
 		mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
@@ -43,17 +44,27 @@ namespace Util
 		return uni(rng);
 	}	
 	
-	int prime(int v)
+	static int clamp(int x, int min, int max)
+	{
+		if(x < min)
+			return min;
+		if(x > max)
+			return max;
+		
+		return x;
+	}
+	
+	static int prime(int v)
 	{
 		return 33809;
 	}
 	
-	int ctoi(char c)
+	static int ctoi(char c)
 	{
 		return c - '0';
 	}
 	
-	string clean_up(string str)
+	static string clean_up(string str)
 	{
 		string result = "";
 		for(auto c : str)
@@ -66,7 +77,7 @@ namespace Util
 		return result;
 	}
 	
-	vector<string> split_on_separators(string str, string separators)
+	static vector<string> split_on_separators(string str, string separators)
 	{
 		vector<string> divided;
 		int i = 0, count = 0;
@@ -88,6 +99,6 @@ namespace Util
 		
 		return divided;
 	}
-}
+};
 
 #endif

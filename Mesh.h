@@ -25,8 +25,6 @@ public:
 	
 	void build_vertex_normals();
 	
-	Vetor get_abg(int triangle, Vetor point);
-	
 	Material* get_material() const;
 	Triangle get_triangle(int i) const;
 	int get_size_triangles() const;

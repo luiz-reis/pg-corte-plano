@@ -15,9 +15,18 @@ private:
 public:
 	friend class Mesh;
 	Triangle(int va, int vb, int vc, Vetor normal, Mesh *mesh);
+	
+	Vetor get_abg(Vetor point) const;
+	
+	Mesh* get_mesh() const;
+	
 	Vetor get_va() const;
 	Vetor get_vb() const;
 	Vetor get_vc() const;	
+	
+	Vetor get_na() const;
+	Vetor get_nb() const;
+	Vetor get_nc() const;
 };
 
 #endif

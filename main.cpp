@@ -9,7 +9,6 @@
 
 void initialize();
 void draw();
-void update();
 void key_press(unsigned char key, int x, int y);
 
 int window;
@@ -51,7 +50,7 @@ void initialize()
 	glGetIntegerv( GL_VIEWPORT, m_viewport);
 	scene->get_camera()->set_screen_res(m_viewport[2], m_viewport[3]); //width x height
 	scene->set_buffer(m_viewport[2], m_viewport[3]); //width x height
-
+	scene->set_la(Color(255,255,255));
 	scene->draw();
 }
 
@@ -64,12 +63,6 @@ void draw()
 	glDrawPixels(camera->get_resx(), camera->get_resy(), GL_RGB, GL_FLOAT, scene->get_buffer());
 
 	glFlush();
-}
-
-
-void update()
-{
-	
 }
 
 
