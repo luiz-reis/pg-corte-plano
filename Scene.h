@@ -17,7 +17,9 @@ private:
 	vector<Mesh *> meshs;
 	vector<Light *> lights;
 	float *buffer;
+	Color ia;
 	void scan_line(Triangle triangle);
+	Color ilumination(Vetor point, Vetor normal, Material material);
 	
 public:
 	Scene();
