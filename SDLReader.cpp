@@ -27,13 +27,13 @@ Mesh* SDLReader::read_object(string line)
 		vector<string> l_parm = Util::split_on_separators(l," ");
 		if(i == 0) {
 			v = stoi(l_parm[0]);
-		} else if(i <= v){
+		} else if(i <= v) {
 			float f1 = stof(l_parm[0]); 
 			float f2 = stof(l_parm[1]); 
 			float f3 = stof(l_parm[2]); 
 			
 			mesh->add_vertex(Vetor(f1, f2, f3));
-		}else{
+		} else {
 
 			int i1 = stoi(l_parm[0]) - 1; //por causa do indice do vertice no arquivo comecar a partir de 1
 			int i2 = stoi(l_parm[1]) - 1;
@@ -83,7 +83,13 @@ Light* SDLReader::read_light(string line)
 
 Plane* SDLReader::read_plane(string line)
 {
+	vector<string> parm = Util::split_on_separators(line," ");
+	float a = stof(parm[0]);  
+	float b = stof(parm[1]);  
+	float c = stof(parm[2]); 
+	float d = stof(parm[3]); 
 	
+	return new Plane(a, b, c, d);
 }
 
 void SDLReader::read_sdl(string filename, Scene &scene)
@@ -112,6 +118,7 @@ void SDLReader::read_sdl(string filename, Scene &scene)
 			case 'p':
 			{
 				Plane *plane = read_plane(line.substr(2));
+				scene.set_plane(plane);
 				break;
 			}
 			case 'a':

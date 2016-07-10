@@ -27,7 +27,11 @@ void Vetor::m_escalar(float escalar)
 
 void Vetor::normalizar()
 {
-	m_escalar(1.0f/norma());
+	float n = norma();
+	if(n == 0)
+		return;
+	
+	m_escalar(1.0f/n);
 }
 
 Vetor Vetor::m_escalar(const Vetor& vetor, const float escalar)

@@ -16,6 +16,7 @@ private:
 	Camera *camera;
 	vector<Mesh *> meshs;
 	vector<Light *> lights;
+	Plane *plane;
 	float *buffer;
 	float *zbuffer;
 	Color ia;
@@ -32,6 +33,8 @@ private:
 	
 	void set_val_zbuffer(int x, int y, float val);
 	void set_val_zbuffer(Vetor point, float val);
+	
+	bool bounds(float x, float y) const;
 	
 public:
 	Scene();
@@ -51,6 +54,8 @@ public:
 	
 	void add_light(Light *light);
 	void add_mesh(Mesh *mesh);
+	
+	void set_plane(Plane *plane);
 	
 	void draw();
 };

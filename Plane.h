@@ -3,7 +3,10 @@
 
 class Plane
 {
-	float a, b, c, d;
+public:
+	float a, b, c, d, x0, y0, z0;
+	Plane(float a, float b, float c, float d);
+	~Plane();
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include <cmath>
+#include <iostream>
 
 Camera::Camera(Vetor C, Vetor N, Vetor V, float d, float hx, float hy)
 {
@@ -16,7 +17,9 @@ Camera::Camera(Vetor C, Vetor N, Vetor V, float d, float hx, float hy)
 	this->up = N * V;
 	this->up.normalizar();
 	this->N.normalizar();
-	this->V = this->N * this->up;
+	this->V = this->N * this->up; // vericar ordem para saber se nverte ou nao
+	
+	std::cout << this->up << this->N << this->V << std::endl;
 }
 
 Camera::~Camera()
@@ -73,7 +76,7 @@ Vetor Camera::view_to_screen(Vetor point)
 	x = (x + 1) * this->resx * 0.5f;
 	y = (1 - y) * this->resy * 0.5f;
 	
-	return Vetor(x, y, 0);
+	return Vetor(floor(x), floor(y), 0);
 }
 
 Vetor Camera::view_to_screen(float x, float y, float z)
