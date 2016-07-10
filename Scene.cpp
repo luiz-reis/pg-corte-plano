@@ -67,13 +67,50 @@ void Scene::add_mesh(Mesh *mesh)
 	meshs.push_back(mesh);
 }
 
-void Scene::scan_triangle(Triangle triangle)
+void Scene::set_pixel_color(Vetor p, Color color)
+{
+	set_pixel_color(p.x, p.y, color);
+}
+
+void Scene::set_pixel_color(int x, int y, Color color)
+{
+	if(x < 0 || x > camera->get_resx() || y < 0 || y > camera->get_resy())
+		return;
+	
+	buffer[y * camera->get_resx() * 3 + x * 3 + 0] = color.r/255.0f;
+	buffer[y * camera->get_resx() * 3 + x * 3 + 1] = color.g/255.0f;
+	buffer[y * camera->get_resx() * 3 + x * 3 + 2] = color.b/255.0f;
+}
+
+void fillBottomFlatTriangle(Vetor v1, Vetor v2, Vetor v3)
+{
+	float xmin, xmax;
+	float invsamin, invsamax;
+
+	xmin = xmax = v1.x;
+
+	invsamin = (v2.x - v1.x) / (v2.y - v1.y);
+	invsamax = (v3.x - v1.x) / (v3.y - v1.y);
+	
+	for(int scany = v1.y; scany <= v2.y; ++scany)
+	{
+		for(int i = xmin; i <= xmax; ++i)
+		{
+			Vetor point = Vetor(i, scany, 0);
+			
+			set_pixel_color(point, Color(255,0,0));
+		}
+	
+		xmin += invsamin;
+		xmax += invsamax;
+	}
+}
+
+void Scene::scan_line(Triangle triangle)
 {	
 	Vetor va = triangle.get_va();
 	Vetor vb = triangle.get_vb();
 	Vetor vc = triangle.get_vc();
-	
-	std::cout << va << vb << vc << std::endl;
 	
 	Vetor vva = camera->world_to_view(va);
 	Vetor vvb = camera->world_to_view(vb);
@@ -83,53 +120,30 @@ void Scene::scan_triangle(Triangle triangle)
 	Vetor pvb = camera->view_to_screen(vvb);
 	Vetor pvc = camera->view_to_screen(vvc);
 	
-	Vetor vertices[] = { pva, pvb, pvc };
+	Vetor v[] = { pva, pvb, pvc };
 	
 	//ordeno vertices em y
-	if(vertices[0].y > vertices[1].y)
-		swap(vertices[0], vertices[1]);
+	if(v[0].y > v[1].y)
+		swap(v[0], v[1]);
 	
-	if(vertices[1].y > vertices[2].y) {
-		swap(vertices[1], vertices[2]);
+	if(v[1].y > v[2].y) {
+		swap(v[1], v[2]);
 		
-		if(vertices[0].y > vertices[1].y)
-			swap(vertices[0], vertices[1]);
+		if(v[0].y > v[1].y)
+			swap(v[0], v[1]);
 	}
 	
-	std::cout << vertices[0] << vertices[1] << vertices[2] << std::endl;
-	
-	float xmin, xmax, y;
-	float amin, amax;
-	
-	xmin = xmax = vertices[0].x;
-	y = vertices[0].y;
-	
-	amin = (vertices[2].y - y) / (vertices[2].x - xmin);
-	amax = (vertices[1].y - y) / (vertices[1].x - xmin);
-	
-	if(vertices[2].x > vertices[1].x)
-		swap(amin, amax);
-
-	while(y <= vertices[2].y)
+	if(v[1].y == v[2].y)
+		fillBottomFlatTriangle(v[0], v[1], v[2]);
+	else if(v[0].y == v[1].y)
+		fillTopFlatTriangle(v[0], v[1], vp[2]);
+	else
 	{
-		if(y >= vertices[1].y){
-			float temp = (vertices[2].y - vertices[1].y) / (vertices[2].x - vertices[1].x);
-			if(vertices[2].x > vertices[1].x)
-				amin = temp;
-			else 
-				amax = temp;
-		}
+		Vetor v4 = Vetor((int)(v[0].x + ((float)(v[1].y - v[0].y) / (float)(v[2].y - v[0].y)) * (v[2].x - v[0].x)), v[1].y);
 		
-		for(int i = xmin; i <= xmax; ++i)
-		{
-			Vetor point = Vetor(i, y, 0);
-			std::cout << point << std::endl;
-		}
-		
-		y += 1;
-		xmin = xmin + 1 / amin;
-		xmax = xmax + 1 / amax;
-	}	
+		fillBottomFlatTriangle(v[0], v[1], v4);
+		fillTopFlatTriangle(v[1], v4, v[2]);
+	}
 }
 
 void Scene::draw()
@@ -138,7 +152,7 @@ void Scene::draw()
 	{
 		for(int i = 0; i < m->get_size_triangles(); ++i) {
 			Triangle t = m->get_triangle(i);
-			scan_triangle(t);
+			scan_line(t);
 		}
 	}
 }

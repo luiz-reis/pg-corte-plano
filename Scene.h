@@ -17,7 +17,7 @@ private:
 	vector<Mesh *> meshs;
 	vector<Light *> lights;
 	float *buffer;
-	void scan_triangle(Triangle triangle);
+	void scan_line(Triangle triangle);
 	
 public:
 	Scene();
@@ -26,6 +26,9 @@ public:
 	
 	void set_buffer(int w, int h);
 	float* get_buffer() const;
+	
+	void set_pixel_color(int x, int y, Color color);
+	void set_pixel_color(Vetor p, Color color)
 	
 	Camera* get_camera() const;
 	void set_camera(Camera *camera);

@@ -4,11 +4,11 @@
 class Color
 {
 public:
-	char r, g, b, a;
+	int r, g, b, a;
 
 	Color();
-	Color(char r, char g, char b);
-	Color(char r, char g, char b, char a);
+	Color(int r, int g, int b);
+	Color(int r, int g, int b, int a);
 	~Color();
 };
 

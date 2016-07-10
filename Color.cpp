@@ -6,13 +6,13 @@ Color::Color()
 	
 }
 
-Color::Color(char r, char g, char b) 
+Color::Color(int r, int g, int b) 
 	: Color(r, g, b, 255)
 {
 	
 }
 
-Color::Color(char r, char g, char b, char a) 
+Color::Color(int r, int g, int b, int a) 
 {
 	this->r = r;
 	this->g = g;
