@@ -25,10 +25,12 @@ int Mesh::get_size_triangles() const
 	return triangles.size();
 }
 
-void Mesh::add_vertex(Vetor vertex)
+int Mesh::add_vertex(Vetor vertex)
 {
 	vertexs.push_back(vertex);
 	normals.push_back(Vetor());
+	
+	return vertexs.size() - 1;
 }
 
 void Mesh::add_triangle(int va, int vb, int vc)
@@ -42,10 +44,14 @@ void Mesh::add_triangle(int va, int vb, int vc)
 	normal.normalizar();
 	
 	triangles.push_back(Triangle(va, vb, vc, normal, this));
+	triangles.back().i = triangles.size() - 1;
 }
 
 void Mesh::build_vertex_normals()
 {
+	for(auto n : normals)
+		n = Vetor();
+	
 	for(auto t : triangles)
 	{
 		normals[t.va] = normals[t.va] + t.normal;

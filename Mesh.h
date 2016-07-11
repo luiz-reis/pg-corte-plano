@@ -29,7 +29,7 @@ public:
 	Triangle get_triangle(int i) const;
 	int get_size_triangles() const;
 	
-	void add_vertex(Vetor vertex);
+	int add_vertex(Vetor vertex);
 	void add_normal(Vetor normal);
 	void add_triangle(int va, int vb, int vc);	
 };

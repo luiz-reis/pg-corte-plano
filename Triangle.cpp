@@ -31,9 +31,19 @@ Vetor Triangle::get_abg(Vetor point) const
 	return Vetor(alpha, beta, gama);
 }
 
+void Triangle::pop_mesh()
+{
+	this->mesh->triangles.erase(this->mesh->triangles.begin() + i);
+}
+
 Mesh* Triangle::get_mesh() const
 {
 	return this->mesh;
+}
+
+Vetor Triangle::get_normal() const
+{
+	return this->normal;
 }
 
 Vetor Triangle::get_va() const
@@ -49,6 +59,21 @@ Vetor Triangle::get_vb() const
 Vetor Triangle::get_vc() const
 {
 	return mesh->vertexs[vc];
+}
+
+int Triangle::get_iva() const
+{
+	return this->va;
+}
+
+int Triangle::get_ivb() const
+{
+	return this->vb;
+}
+
+int Triangle::get_ivc() const
+{
+	return this->vc;
 }
 
 Vetor Triangle::get_na() const

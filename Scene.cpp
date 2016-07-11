@@ -229,48 +229,76 @@ void Scene::scan_line(Triangle triangle)
 void Scene::intersect_plane(Triangle t)
 {
 	Vetor n = Vetor(plane->a, plane->b, plane->c);
-	Vetor v0 = Vetor(plane->xa, plane->y0, plane->z0);
+	Vetor v0 = Vetor(plane->x0, plane->y0, plane->z0);
 	
 	Vetor va = t.get_va();
 	Vetor vb = t.get_va();
 	Vetor vc = t.get_va();
 	
-	Vetor p0, p1;
-	Vetor l0, l1;
-
-	float baixo, cima, r;
-
-	baixo = Vetor::p_escalar(n, (vb-va));
-	if(baixo != 0){
-		cima = Vetor::p_escalar(n, (v0-va));
-		r = cima/baixo;
-		if(r >= 0 && r <= 1){
-			l0 = va + Vetor::m_escalar(r, vb-va);
-		}
+	Vetor li[2];
+	int count = 0;
+	
+	Vetor temp = Vetor::intersect_segment(n, v0, va, vb);
+	if(temp != Vetor::null) 
+		li[count++] = temp;
+		
+	temp = Vetor::intersect_segment(n, v0, va, vc);
+	if(temp != Vetor::null) 
+		li[count++] = temp;
+	
+	temp = Vetor::intersect_segment(n, v0, vb, vc);
+	if(temp != Vetor::null) 
+		li[count++] = temp;
+	
+	if(count == 0) {
+		//ou o triangulo ta todo dentro ou todo fora
+		if(Vetor::p_escalar(n, va - v0) < 0)
+			t.pop_mesh();
+		
+		return;
 	}
-
-	baixo = Vetor::p_escalar(n, (vc-va));
-	if(baixo != 0){
-		cima = Vetor::p_escalar(n, (v0-va));
-		r = cima/baixo;
-		if(r >= 0 && r <= 1){
-			if(l0 == null)
-				l0 = va + Vetor::m_escalar(r, vc-va);
-			else
-				l1 = va + Vetor::m_escalar(r, vc-va);
-		}
+	
+	Vetor p[3];
+	int i[3];
+	count = 0;
+	
+	int sign = Vetor::p_escalar(n, va - v0);
+	if(sign > 0) {
+		i[count] = t.get_iva();
+		p[count++] = va;
 	}
-
-	baixo = Vetor::p_escalar(n, (vc-vb));
-	if(baixo != 0){
-		cima = Vetor::p_escalar(n, (v0-vb));
-		r = cima/baixo;
-		if(r >= 0 && r <= 1){
-			l1 = va + Vetor::m_escalar(r, vc-vb);
-		}
+	else
+		p[2] = va;
+	
+	sign = Vetor::p_escalar(n, vb - v0);
+	if(sign > 0) {
+		i[count] = t.get_ivb();
+		p[count++] = vb;
 	}
-
-
+	else
+		p[1 + count] = vb;
+	
+	sign = Vetor::p_escalar(n, vc - v0);
+	if(sign > 0) {
+		i[count] = t.get_ivc();
+		p[count++] = vc;
+	}
+	else
+		p[count] = vc;
+	
+	
+	t.pop_mesh();
+	
+	int i1 = t.get_mesh()->add_vertex(li[0]);
+	int i2 = t.get_mesh()->add_vertex(li[1]);
+	
+	t.get_mesh()->add_triangle(i1, i2, i[0]);
+	if(count > 1) {
+		if(Vetor::colinear(p[0], li[0], p[2]))
+			t.get_mesh()->add_triangle(i[0], i[1], i2);
+		else
+			t.get_mesh()->add_triangle(i[0], i[1], i1);
+	}
 }
 
 void Scene::draw()
@@ -282,6 +310,8 @@ void Scene::draw()
 			Triangle t = m->get_triangle(i);
 			intersect_plane(t);
 		}
+		
+		m->build_vertex_normals();
 	}
 	
 	for(auto &m : meshs)

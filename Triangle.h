@@ -8,7 +8,7 @@ class Mesh;
 class Triangle
 {
 private:
-	int va, vb, vc;
+	int va, vb, vc, i;
 	float alpha, beta, gama;
 	Vetor normal;
 	Mesh* mesh;
@@ -22,11 +22,19 @@ public:
 	
 	Vetor get_va() const;
 	Vetor get_vb() const;
-	Vetor get_vc() const;	
+	Vetor get_vc() const;
+	
+	int get_iva() const;
+	int get_ivb() const;
+	int get_ivc() const;	
 	
 	Vetor get_na() const;
 	Vetor get_nb() const;
 	Vetor get_nc() const;
+	
+	Vetor get_normal() const;
+	
+	void pop_mesh();
 };
 
 #endif

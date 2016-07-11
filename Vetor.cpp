@@ -1,6 +1,8 @@
 #include "Vetor.h"
 #include <cmath>
 
+const Vetor Vetor::null = Vetor(FLT_MAX, FLT_MAX, FLT_MAX);
+
 Vetor::Vetor()
 {
 	this->x = this->y = this->z = 0;
@@ -34,6 +36,26 @@ void Vetor::normalizar()
 	m_escalar(1.0f/n);
 }
 
+bool Vetor::colinear(Vetor& a, Vetor& b, Vetor& c)
+{
+	return a.x * b.y + a.y * c.x + b.x * c.y - (c.x * b.y + a.x * c.y + b.x * a.y) == 0;
+}
+
+Vetor Vetor::intersect_segment(Vetor& n, Vetor& v0, Vetor& p0, Vetor& p1)
+{
+	float num, den, r;
+	den = Vetor::p_escalar(n, p1 - p0);
+	if(den != 0){
+		num = Vetor::p_escalar(n, v0 - p0);
+		r = num / den;
+		if(r >= 0 && r <= 1) {
+			return p0 + Vetor::m_escalar(p1 - p0, r);
+		}
+	}
+	
+	return Vetor::null;
+}
+
 Vetor Vetor::m_escalar(const Vetor& vetor, const float escalar)
 {
 	Vetor ret = vetor;
@@ -53,6 +75,16 @@ Vetor Vetor::normalizar(const Vetor& vetor)
 float Vetor::p_escalar(const Vetor& v1, const Vetor& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+bool operator!=(const Vetor& lhs, const Vetor& rhs)
+{
+	return !(lhs == rhs);
+}
+	
+bool operator==(const Vetor& lhs, const Vetor& rhs)
+{
+	return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
 }
 
 Vetor& Vetor::operator+=(const Vetor& rhs)

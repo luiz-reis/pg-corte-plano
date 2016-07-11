@@ -87,9 +87,12 @@ Plane* SDLReader::read_plane(string line)
 	float a = stof(parm[0]);  
 	float b = stof(parm[1]);  
 	float c = stof(parm[2]); 
-	float d = stof(parm[3]); 
-	
-	return new Plane(a, b, c, d);
+	float d = stof(parm[3]);
+	float x0 = stof(parm[4]); 
+	float y0 = stof(parm[5]);
+	float z0 = stof(parm[6]);
+			
+	return new Plane(a, b, c, d, x0, y0, z0);
 }
 
 void SDLReader::read_sdl(string filename, Scene &scene)
