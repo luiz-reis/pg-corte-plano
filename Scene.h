@@ -38,6 +38,10 @@ private:
 	
 	bool bounds(float x, float y) const;
 	
+	Color ambient(float ka);
+	Color diffuse(float kd, Vetor L, Vetor n, Vetor od, Color light);
+	Color specular(float ks, Vetor R, Vetor V, float n, Color light);
+	
 public:
 	Scene();
 	Scene(Camera *camera);

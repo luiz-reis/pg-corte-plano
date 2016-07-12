@@ -50,7 +50,7 @@ void initialize()
 	glGetIntegerv( GL_VIEWPORT, m_viewport);
 	scene->get_camera()->set_screen_res(m_viewport[2], m_viewport[3]); //width x height
 	scene->set_buffer(m_viewport[2], m_viewport[3]); //width x height
-	scene->set_la(Color(127, 64, 64));
+	scene->set_la(Color(100, 100, 100));
 	scene->draw();
 }
 

@@ -11,11 +11,11 @@ Mesh* SDLReader::read_object(string line)
 	float kb 	= stof(parm[2]); 
 	float kc 	= stof(parm[3]); 
 	float n 	= stof(parm[4]);
-	char r 		= stoi(parm[5]);
-	char g 		= stoi(parm[6]);
-	char b 		= stoi(parm[7]);
+	float f1 		= stof(parm[5]);
+	float f2 		= stof(parm[6]);
+	float f3 		= stof(parm[7]);
 	
-	Material *material = new Material(ka,kb,kc,n,Color(r,g,b));
+	Material *material = new Material(ka,kb,kc,n,Vetor(f1,f2,f3));
 	Mesh *mesh = new Mesh(material);
 	int i = 0;
 	int v;
@@ -74,9 +74,9 @@ Light* SDLReader::read_light(string line)
 	float p3 = stof(parm[2]); 
 	float ip = stof(parm[3]); 
 	
-	char r 	= stoi(parm[4]);  
-	char g 	= stoi(parm[5]);
-	char b 	= stoi(parm[6]);
+	int r 	= stoi(parm[4]);  
+	int g 	= stoi(parm[5]);
+	int b 	= stoi(parm[6]);
 	
 	return new Light(Vetor(p1,p2,p3), ip, Color(r,g,b));
 }

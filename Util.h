@@ -44,7 +44,7 @@ public:
 		return uni(rng);
 	}	
 	
-	static int clamp(int x, int min, int max)
+	static float clamp(float x, float min, float max)
 	{
 		if(x < min)
 			return min;

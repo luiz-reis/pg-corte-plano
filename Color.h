@@ -10,6 +10,9 @@ public:
 	Color(int r, int g, int b);
 	Color(int r, int g, int b, int a);
 	~Color();
+	
+	friend Color operator+(Color lhs, const Color& rhs);
+	Color& operator+=(const Color& rhs);
 };
 
 #endif

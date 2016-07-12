@@ -1,6 +1,6 @@
 #include "Material.h"
 
-Material::Material(float ka, float kd, float ks, float n, Color color)
+Material::Material(float ka, float kd, float ks, float n, Vetor color)
 {
 	this->ka = ka;
 	this->kd = kd;
@@ -34,12 +34,12 @@ float Material::get_n() const
 	return this->n;
 }
 
-Color Material::get_od() const
+Vetor Material::get_od() const
 {
 	return this->od;
 }
 
-void Material::set_color(Color color)
+void Material::set_color(Vetor color)
 {
 	this->od = color;
 }

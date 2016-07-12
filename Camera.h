@@ -19,8 +19,8 @@ public:
 	
 	void set_screen_res(float resx, float resy);
 	
-	Vetor world_to_view(Vetor point);
-	Vetor world_to_view(float x, float y, float z);
+	Vetor world_to_view(Vetor point, bool vector = false);
+	Vetor world_to_view(float x, float y, float z, bool vector = false);
 	
 	Vetor view_to_screen(Vetor point);
 	Vetor view_to_screen(float x, float y, float z);

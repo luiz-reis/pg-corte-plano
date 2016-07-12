@@ -24,3 +24,18 @@ Color::~Color()
 {
 	
 }
+
+Color& Color::operator+=(const Color& rhs)
+{
+	this->r += rhs.r;
+	this->g += rhs.g;
+	this->b += rhs.b;
+	
+	return *this;
+}
+
+Color operator+(Color lhs, const Color& rhs)
+{
+	lhs += rhs;
+	return lhs;
+}

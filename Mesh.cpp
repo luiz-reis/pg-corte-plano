@@ -8,6 +8,7 @@ Mesh::Mesh(Material *mat)
 Mesh::~Mesh()
 {
 	//pensar se libera ou nao o material
+	delete this->material;
 }
 
 Material* Mesh::get_material() const
@@ -49,7 +50,7 @@ void Mesh::add_triangle(int va, int vb, int vc)
 
 void Mesh::build_vertex_normals()
 {
-	for(auto n : normals)
+	for(auto &n : normals)
 		n = Vetor();
 	
 	for(auto t : triangles)

@@ -67,8 +67,12 @@ void Scene::set_buffer(int w, int h)
 		delete[] zbuffer;
 	
 	buffer = new float[3 * w * h];
-	for(int i = 0; i < 3 * w * h; ++i)
-		buffer[i] = 0.0f;
+	for(int i = 0; i < 3 * w * h; i+=3)
+	{
+		buffer[i + 0] = 1.0f;
+		buffer[i + 1] = 0.0f;
+		buffer[i + 2] = 0.0f;
+	}
 	
 	zbuffer = new float[w * h];
 	for(int i = 0; i < w * h; ++i)
@@ -130,7 +134,7 @@ float Scene::get_val_zbuffer(Vetor point) const
 	
 void Scene::set_val_zbuffer(int x, int y, float val)
 {
-	if(x < 0 || x > camera->get_resx() || y < 0 || y > camera->get_resy())
+	if(!bounds(x, y))
 		return;
 	
 	zbuffer[y * camera->get_resx() + x] = val;
@@ -232,10 +236,66 @@ void Scene::intersect_plane(Triangle t)
 	Vetor v0 = Vetor(plane->x0, plane->y0, plane->z0);
 	
 	Vetor va = t.get_va();
-	Vetor vb = t.get_va();
-	Vetor vc = t.get_va();
+	Vetor vb = t.get_vb();
+	Vetor vc = t.get_vc();
 	
-	Vetor li[2];
+	Vetor p[3];
+	int i[3];
+	int count = 0;
+	
+	if(Vetor::p_escalar(n, va - v0) > 0) {
+		i[count] = t.get_iva();
+		p[count++] = va;
+	}
+	else
+		p[2] = va;
+	
+	if(Vetor::p_escalar(n, vb - v0) > 0) {
+		i[count] = t.get_ivb();
+		p[count++] = vb;
+	}
+	else
+		p[count + 1] = vb;
+	
+	if(Vetor::p_escalar(n, vc - v0) > 0) {
+		i[count] = t.get_ivc();
+		p[count++] = vc;
+	}
+	else
+		p[count] = vc;
+	
+	if(count == 3)
+		return;
+	
+	t.pop_mesh();
+	if(count == 1)
+	{
+		Vetor l1 = Vetor::intersect_segment(n, v0, p[0], p[1]);
+		Vetor l2 = Vetor::intersect_segment(n, v0, p[0], p[2]);
+		
+		int i1 = t.get_mesh()->add_vertex(l1);
+		int i2 = t.get_mesh()->add_vertex(l2);
+			
+		t.get_mesh()->add_triangle(i[0], i1, i2);
+	}
+	else if(count == 2)
+	{
+		Vetor l1 = Vetor::intersect_segment(n, v0, p[0], p[2]);
+		Vetor l2 = Vetor::intersect_segment(n, v0, p[1], p[2]);
+		
+		int i1 = t.get_mesh()->add_vertex(l1);
+		int i2 = t.get_mesh()->add_vertex(l2);
+			
+		t.get_mesh()->add_triangle(i[0], i1, i2);
+		
+		if(Vetor::colinear(p[0], l1, p[2]))
+			t.get_mesh()->add_triangle(i[0], i[1], i2);
+		else
+			t.get_mesh()->add_triangle(i[0], i[1], i1);
+	}
+	
+	
+	/*Vetor li[2];
 	int count = 0;
 	
 	Vetor temp = Vetor::intersect_segment(n, v0, va, vb);
@@ -298,25 +358,29 @@ void Scene::intersect_plane(Triangle t)
 			t.get_mesh()->add_triangle(i[0], i[1], i2);
 		else
 			t.get_mesh()->add_triangle(i[0], i[1], i1);
-	}
+	}*/
 }
 
 void Scene::draw()
 {
-	//fazer intersecao plano com meshs
-	for(auto &m : meshs)
+	if(plane != nullptr) 
 	{
-		for(int i = 0; i < m->get_size_triangles(); ++i) {
-			Triangle t = m->get_triangle(i);
-			intersect_plane(t);
-		}
+		//fazer intersecao plano com meshs
+		for(auto &m : meshs)
+		{
+			for(int i = 0; i < m->get_size_triangles(); ++i) {
+				Triangle t = m->get_triangle(i);
+				intersect_plane(t);
+			}
 		
-		m->build_vertex_normals();
+			m->build_vertex_normals();
+		}
 	}
 	
 	for(auto &m : meshs)
-	{
-		for(int i = 0; i < m->get_size_triangles(); ++i) {
+	{	
+		for(int i = 0; i < m->get_size_triangles(); ++i) 
+		{
 			Triangle t = m->get_triangle(i);
 			scan_line(t);
 		}
@@ -329,8 +393,17 @@ void Scene::phong(Vetor point, Triangle triangle)
 		return;
 	
 	Vetor abg = triangle.get_abg(point);
-	Vetor projected = Vetor::m_escalar(triangle.get_va(), abg.x) + Vetor::m_escalar(triangle.get_vb(), abg.y) + Vetor::m_escalar(triangle.get_vc(), abg.z);
-	Vetor normal = Vetor::m_escalar(triangle.get_na(), abg.x) + Vetor::m_escalar(triangle.get_nb(), abg.y) + Vetor::m_escalar(triangle.get_nc(), abg.z);
+	
+	Vetor va = camera->world_to_view(triangle.get_va());
+	Vetor vb = camera->world_to_view(triangle.get_vb());
+	Vetor vc = camera->world_to_view(triangle.get_vc());
+	
+	Vetor na = camera->world_to_view(triangle.get_na(), true);
+	Vetor nb = camera->world_to_view(triangle.get_nb(), true);
+	Vetor nc = camera->world_to_view(triangle.get_nc(), true);
+	
+	Vetor projected = Vetor::m_escalar(va, abg.x) + Vetor::m_escalar(vb, abg.y) + Vetor::m_escalar(vc, abg.z);
+	Vetor normal = Vetor::m_escalar(na, abg.x) + Vetor::m_escalar(nb, abg.y) + Vetor::m_escalar(nc, abg.z);
 	
 	if(projected.z >= get_val_zbuffer(point))
 		return;
@@ -339,6 +412,24 @@ void Scene::phong(Vetor point, Triangle triangle)
 	
 	Color color = ilumination(projected, normal, *triangle.get_mesh()->get_material());
 	set_pixel_color(point, color);
+}
+
+
+Color Scene::ambient(float ka)
+{
+	return Color(ka * ia.r, ka * ia.g, ka * ia.b);
+}
+
+Color Scene::diffuse(float kd, Vetor L, Vetor n, Vetor od, Color light)
+{
+	float coef = kd * Vetor::p_escalar(n, L);
+	return Color(coef * od.x * light.r, coef * od.y * light.g, coef * od.z * light.b);
+}
+
+Color Scene::specular(float ks, Vetor R, Vetor V, float n, Color light)
+{
+	float coef =  ks * pow(Vetor::p_escalar(R, V), n);
+	return Color(coef * light.r, coef * light.g, coef * light.b);
 }
 
 Color Scene::ilumination(Vetor point, Vetor normal, Material material)
@@ -354,39 +445,25 @@ Color Scene::ilumination(Vetor point, Vetor normal, Material material)
 	
 	if(Vetor::p_escalar(normal, V) < 0)
 		normal = -normal;
-
-	int r = Util::clamp(material.get_ka() * ia.r, 0, 255);
-	int g = Util::clamp(material.get_ka() * ia.g, 0, 255);
-	int b = Util::clamp(material.get_ka() * ia.b, 0, 255);
-
-	float nl = Vetor::p_escalar(normal, L);
 	
-	if(nl >= 0) {
-		float difusa = material.get_kd() * nl;
-		int r_difusa = Util::clamp(material.get_od().r * light.get_color().r * difusa, 0, 255);
-		int g_difusa = Util::clamp(material.get_od().g * light.get_color().g * difusa, 0, 255);
-		int b_difusa = Util::clamp(material.get_od().b * light.get_color().b * difusa, 0, 255);
+	float nl = Vetor::p_escalar(normal, L);
+	Vetor nl2 = Vetor::m_escalar(normal, 2.0f * nl);
+	Vetor R = nl2 - L;
+	R.normalizar();
+	
+	Color a = ambient(material.get_ka());
+	Color d, s;
+	if(Vetor::p_escalar(normal, L) >= 0)
+	{
+		d = diffuse(material.get_kd(), L, normal, material.get_od(), light.get_color());
 		
-		r += Util::clamp(r_difusa, 0, 255);
-		g += Util::clamp(g_difusa, 0, 255);
-		b += Util::clamp(b_difusa, 0, 255);
-
-		Vetor nl2 = Vetor::m_escalar(normal, 2.0f * nl);
-		Vetor R = normal - L;
-		R.m_escalar(2.0f * nl);
-		R.normalizar();
-		
-		float rv = Vetor::p_escalar(V, R);
-		if(rv >= 0) {
-			float rvn = pow(rv, material.get_n());
-			float especular = material.get_ks() * rvn;
-			r += Util::clamp(especular * light.get_color().r, 0, 255);
-			g += Util::clamp(especular * light.get_color().g, 0, 255);
-			b += Util::clamp(especular * light.get_color().b, 0, 255);
-		}
+		if(Vetor::p_escalar(R, V) >= 0)
+			s = specular(material.get_ks(), R, V, material.get_n(), light.get_color());
 	}
 	
-	return Color(r, g, b);
+	Color color = a + d + s;
+	
+	return Color(min(color.r, 255), min(color.g, 255), min(color.b, 255));
 }
 
 

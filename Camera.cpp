@@ -33,9 +33,9 @@ void Camera::set_screen_res(float resx, float resy)
 	this->resy = resy;
 }
 
-Vetor Camera::world_to_view(Vetor point)
+Vetor Camera::world_to_view(Vetor point, bool vector)
 {
-	Vetor temp = point - this->C;
+	Vetor temp = vector ? point : point - this->C;
 	float x = Vetor::p_escalar(this->up, temp);
 	float y = Vetor::p_escalar(this->V, temp);
 	float z = Vetor::p_escalar(this->N, temp);
@@ -43,9 +43,9 @@ Vetor Camera::world_to_view(Vetor point)
 	return Vetor(x, y, z); 
 }
 
-Vetor Camera::world_to_view(float x, float y, float z)
+Vetor Camera::world_to_view(float x, float y, float z, bool vector)
 {
-	world_to_view(Vetor(x, y, z));
+	world_to_view(Vetor(x, y, z), vector);
 }
 
 Vetor Camera::world_to_screen(Vetor point)
