@@ -11,6 +11,16 @@ Mesh::~Mesh()
 	delete this->material;
 }
 
+Mesh* Mesh::copy() const
+{
+	Material* mat = new Material(material->get_ka(), material->get_kd(), material->get_ks(), material->get_n(), material->get_od());
+	Mesh* c = new Mesh(mat);
+	for(auto &v : vertexs)
+		c->add_vertex(v);
+	
+	return c;
+}
+
 Material* Mesh::get_material() const
 {
 	return this->material;
@@ -44,8 +54,9 @@ void Mesh::add_triangle(int va, int vb, int vc)
 	Vetor normal = v1 * v2;
 	normal.normalizar();
 	
-	triangles.push_back(Triangle(va, vb, vc, normal, this));
-	triangles.back().i = triangles.size() - 1;
+	Triangle t = Triangle(va, vb, vc, normal, this);
+	t.i = triangles.size();
+	triangles.push_back(t);
 }
 
 void Mesh::build_vertex_normals()
@@ -63,11 +74,6 @@ void Mesh::build_vertex_normals()
 	for(auto &n : normals)
 		n.normalizar();
 }
-
-
-
-
-
 
 
 

@@ -20,6 +20,7 @@ public:
 	static Vetor normalizar(const Vetor& vetor);
 	static bool colinear(Vetor& a, Vetor& b, Vetor& c);
 	static Vetor intersect_segment(Vetor& n, Vetor& v0, Vetor& p0, Vetor& p1);
+	static Vetor get_abg(const Vetor& p, const Vetor& p1, const Vetor& p2, const Vetor& p3);
 	
 	static const Vetor null;
 	

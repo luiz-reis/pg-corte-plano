@@ -34,7 +34,7 @@ private:
 	void set_val_zbuffer(int x, int y, float val);
 	void set_val_zbuffer(Vetor point, float val);
 	
-	void intersect_plane(Triangle t);
+	void intersect_plane(Triangle t, Mesh& intersect);
 	
 	bool bounds(float x, float y) const;
 	

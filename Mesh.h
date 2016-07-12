@@ -23,6 +23,8 @@ public:
 	Mesh(Material *mat);
 	~Mesh();
 	
+	Mesh* copy() const;
+	
 	void build_vertex_normals();
 	
 	Material* get_material() const;

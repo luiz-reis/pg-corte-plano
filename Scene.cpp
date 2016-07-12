@@ -230,7 +230,7 @@ void Scene::scan_line(Triangle triangle)
 	}
 }
 
-void Scene::intersect_plane(Triangle t)
+void Scene::intersect_plane(Triangle t, Mesh& intersect)
 {
 	Vetor n = Vetor(plane->a, plane->b, plane->c);
 	Vetor v0 = Vetor(plane->x0, plane->y0, plane->z0);
@@ -264,34 +264,42 @@ void Scene::intersect_plane(Triangle t)
 	else
 		p[count] = vc;
 	
-	if(count == 3)
+	if(count == 3) {
+		std::cout << "3: " << t.i << std::endl;
+		intersect.add_triangle(t.get_iva(), t.get_ivb(), t.get_ivc());
 		return;
+	}
 	
-	t.pop_mesh();
 	if(count == 1)
 	{
+		std::cout << "1: " << t.i << std::endl;
 		Vetor l1 = Vetor::intersect_segment(n, v0, p[0], p[1]);
 		Vetor l2 = Vetor::intersect_segment(n, v0, p[0], p[2]);
 		
-		int i1 = t.get_mesh()->add_vertex(l1);
-		int i2 = t.get_mesh()->add_vertex(l2);
+		int i1 = intersect.add_vertex(l1);
+		int i2 = intersect.add_vertex(l2);
 			
-		t.get_mesh()->add_triangle(i[0], i1, i2);
+		intersect.add_triangle(i[0], i1, i2);
 	}
 	else if(count == 2)
 	{
+		std::cout << "2: " << t.i << std::endl;
 		Vetor l1 = Vetor::intersect_segment(n, v0, p[0], p[2]);
 		Vetor l2 = Vetor::intersect_segment(n, v0, p[1], p[2]);
 		
-		int i1 = t.get_mesh()->add_vertex(l1);
-		int i2 = t.get_mesh()->add_vertex(l2);
+		int i1 = intersect.add_vertex(l1);
+		int i2 = intersect.add_vertex(l2);
 			
-		t.get_mesh()->add_triangle(i[0], i1, i2);
+		intersect.add_triangle(i[0], i1, i2);
 		
 		if(Vetor::colinear(p[0], l1, p[2]))
-			t.get_mesh()->add_triangle(i[0], i[1], i2);
+			intersect.add_triangle(i[0], i[1], i2);
 		else
-			t.get_mesh()->add_triangle(i[0], i[1], i1);
+			intersect.add_triangle(i[0], i[1], i1);
+	}
+	else
+	{
+		std::cout << "0: " << t.i << std::endl;
 	}
 	
 	
@@ -363,26 +371,44 @@ void Scene::intersect_plane(Triangle t)
 
 void Scene::draw()
 {
+	vector<Mesh *> cut;
 	if(plane != nullptr) 
 	{
 		//fazer intersecao plano com meshs
 		for(auto &m : meshs)
 		{
+			Mesh *copy = m->copy();
+			
 			for(int i = 0; i < m->get_size_triangles(); ++i) {
 				Triangle t = m->get_triangle(i);
-				intersect_plane(t);
+				intersect_plane(t, *copy);
 			}
 		
-			m->build_vertex_normals();
+			copy->build_vertex_normals();
+			cut.push_back(copy);
 		}
+		
+		for(auto &m : cut)
+		{	
+			for(int i = 0; i < m->get_size_triangles(); ++i) 
+			{
+				Triangle t = m->get_triangle(i);
+				scan_line(t);
+			}
+		}
+		
+		for(auto &m : cut)
+			delete m;
 	}
-	
-	for(auto &m : meshs)
-	{	
-		for(int i = 0; i < m->get_size_triangles(); ++i) 
-		{
-			Triangle t = m->get_triangle(i);
-			scan_line(t);
+	else
+	{
+		for(auto &m : meshs)
+		{	
+			for(int i = 0; i < m->get_size_triangles(); ++i) 
+			{
+				Triangle t = m->get_triangle(i);
+				scan_line(t);
+			}
 		}
 	}
 }
@@ -391,12 +417,12 @@ void Scene::phong(Vetor point, Triangle triangle)
 {
 	if(!bounds(point.x, point.y))
 		return;
-	
-	Vetor abg = triangle.get_abg(point);
-	
+		
 	Vetor va = camera->world_to_view(triangle.get_va());
 	Vetor vb = camera->world_to_view(triangle.get_vb());
 	Vetor vc = camera->world_to_view(triangle.get_vc());
+	
+	Vetor abg = Vetor::get_abg(point, camera->view_to_screen(va), camera->view_to_screen(vb), camera->view_to_screen(vc));
 	
 	Vetor na = camera->world_to_view(triangle.get_na(), true);
 	Vetor nb = camera->world_to_view(triangle.get_nb(), true);
@@ -413,7 +439,6 @@ void Scene::phong(Vetor point, Triangle triangle)
 	Color color = ilumination(projected, normal, *triangle.get_mesh()->get_material());
 	set_pixel_color(point, color);
 }
-
 
 Color Scene::ambient(float ka)
 {

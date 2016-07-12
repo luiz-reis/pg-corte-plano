@@ -64,6 +64,28 @@ Vetor Vetor::m_escalar(const Vetor& vetor, const float escalar)
 	return ret;
 }
 
+Vetor Vetor::get_abg(const Vetor& p, const Vetor& p1, const Vetor& p2, const Vetor& p3)
+{
+	Vetor v0 = p1;
+	
+	Vetor u = p2 - v0;
+	Vetor v = p3 - v0;
+	Vetor w = p - v0;
+	
+	float uv = p_escalar(u, v);
+	float uu = p_escalar(u, u);
+	float vv = p_escalar(v, v);
+	
+	float d = uv * uv - uu * vv;
+	float beta = uv * p_escalar(w, v) - vv * p_escalar(w, u);
+	float gama = uv * p_escalar(w, u) - uu * p_escalar(w, v);
+	beta /= d;
+	gama /= d;
+	float alpha = 1 - beta - gama;
+	
+	return Vetor(alpha, beta, gama);
+}
+
 Vetor Vetor::normalizar(const Vetor& vetor)
 {
 	Vetor ret = vetor;

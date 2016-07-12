@@ -8,15 +8,14 @@ class Mesh;
 class Triangle
 {
 private:
-	int va, vb, vc, i;
+	int va, vb, vc;
 	float alpha, beta, gama;
 	Vetor normal;
 	Mesh* mesh;
 public:
+	int i;
 	friend class Mesh;
 	Triangle(int va, int vb, int vc, Vetor normal, Mesh *mesh);
-	
-	Vetor get_abg(Vetor point) const;
 	
 	Mesh* get_mesh() const;
 	
