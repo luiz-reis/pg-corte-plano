@@ -1,0 +1,176 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Camera.h
+Vetor.h
+../include/Vetor.h
+Matrix4.h
+../include/Matrix4.h
+
+../include/Color.h
+
+../include/Light.h
+Vetor.h
+../include/Vetor.h
+Color.h
+../include/Color.h
+
+../include/Material.h
+Vetor.h
+../include/Vetor.h
+
+../include/Matrix4.h
+iostream
+-
+
+../include/Mesh.h
+vector
+-
+Vetor.h
+../include/Vetor.h
+Material.h
+../include/Material.h
+Triangle.h
+../include/Triangle.h
+
+../include/Plane.h
+
+../include/SDLReader.h
+string
+-
+Scene.h
+../include/Scene.h
+Camera.h
+../include/Camera.h
+Light.h
+../include/Light.h
+Mesh.h
+../include/Mesh.h
+
+../include/Scene.h
+vector
+-
+Mesh.h
+../include/Mesh.h
+Light.h
+../include/Light.h
+Plane.h
+../include/Plane.h
+Camera.h
+../include/Camera.h
+Triangle.h
+../include/Triangle.h
+
+../include/Triangle.h
+Vetor.h
+../include/Vetor.h
+Mesh.h
+../include/Mesh.h
+
+../include/Util.h
+random
+-
+string
+-
+vector
+-
+fstream
+-
+iostream
+-
+functional
+-
+
+../include/Vetor.h
+iostream
+-
+cfloat
+-
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.cpp
+Camera.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.h
+cmath
+-
+iostream
+-
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Color.cpp
+Color.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Color.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Light.cpp
+Light.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Light.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Material.cpp
+Material.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Material.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Matrix4.cpp
+Matrix4.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Matrix4.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Mesh.cpp
+Mesh.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Mesh.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Plane.cpp
+Plane.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Plane.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.cpp
+SDLReader.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.h
+Util.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Util.h
+vector
+-
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.cpp
+Scene.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.h
+Util.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Util.h
+algorithm
+-
+cmath
+-
+iostream
+-
+cfloat
+-
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Triangle.cpp
+Triangle.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Triangle.h
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.cpp
+Vetor.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.h
+cmath
+-
+
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/main.cpp
+OpenGL/gl.h
+-
+OpenGL/glu.h
+-
+GLUT/glut.h
+-
+stdlib.h
+-
+Vetor.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.h
+Scene.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.h
+SDLReader.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.h
+Camera.h
+/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.h
+

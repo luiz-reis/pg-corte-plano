@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 3.5)
+set(CMAKE_CXX_STANDARD 11)
+project(pg)
+include_directories(include)
+file(GLOB SOURCES "src/*.cpp")
+add_executable(pg ${SOURCES})
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+include_directories( ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+
+target_link_libraries(pg ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
