@@ -13,7 +13,7 @@ using namespace std;
 class Util
 {	
 public:
-	static void read_file(string filename, function<void(string)> callback)
+	static void read_file(string filename, function<void(string, int)> callback)
 	{
 		ifstream reader (filename.c_str());
 		if(!reader.is_open())
@@ -24,12 +24,13 @@ public:
 //			return;
 		}
 
+    int i = 0;
 		while(!reader.eof())
 		{
 			string line;
 			//reader >> line; // get word by word
 			getline(reader, line); //get line			
-			callback(line);
+			callback(line, ++i);
 		}
 
 		reader.close();
