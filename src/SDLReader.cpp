@@ -2,134 +2,146 @@
 #include "Util.h"
 #include <vector>
 
-Mesh* SDLReader::read_object(string line)
+Mesh* SDLReader::read_object(string filename, Material *material)
 {
-	vector<string> parm = Util::split_on_separators(line," ");
-	
-	string filename = parm[0];
-	float ka 	= stof(parm[1]);
-	float kb 	= stof(parm[2]); 
-	float kc 	= stof(parm[3]); 
-	float n 	= stof(parm[4]);
-	float f1 		= stof(parm[5]);
-	float f2 		= stof(parm[6]);
-	float f3 		= stof(parm[7]);
-	
-	Material *material = new Material(ka,kb,kc,n,Vetor(f1,f2,f3));
 	Mesh *mesh = new Mesh(material);
-	int i = 0;
-	int v;
+	int v, t;
 	
-	Util::read_file(filename, [&i,&v,&mesh](string l){
+	Util::read_file(filename, [&v, &t, &mesh](string l, int i){
 		if(l.size() == 0)
 			return;
 
 		vector<string> l_parm = Util::split_on_separators(l," ");
-		if(i == 0) {
+		if(i == 1) 
+    {
 			v = stoi(l_parm[0]);
-		} else if(i <= v) {
+      t = stoi(l_parm[1]);
+		} 
+    else if(i <= v + 1) 
+    {
 			float f1 = stof(l_parm[0]); 
 			float f2 = stof(l_parm[1]); 
 			float f3 = stof(l_parm[2]); 
 			
 			mesh->add_vertex(Vetor(f1, f2, f3));
-		} else {
-
+		} 
+    else if(i <= v + t + 1) 
+    {
 			int i1 = stoi(l_parm[0]) - 1; //por causa do indice do vertice no arquivo comecar a partir de 1
 			int i2 = stoi(l_parm[1]) - 1;
 			int i3 = stoi(l_parm[2]) - 1;
 			mesh->add_triangle(i1, i2, i3); 
 		}
-		i++;
 	});
 
 	mesh->build_vertex_normals();
 	return mesh;
 }
 
-Camera* SDLReader::read_camera(string line)
+Camera* SDLReader::read_camera(string filename)
 {
-	vector<string> parm = Util::split_on_separators(line," ");
-	float c1 	= stof(parm[0]);  
-	float c2 	= stof(parm[1]);
-	float c3 	= stof(parm[2]);
-	float n1 	= stof(parm[3]);
-	float n2 	= stof(parm[4]); 
-	float n3 	= stof(parm[5]); 
-	float v1 	= stof(parm[6]); 
-	float v2 	= stof(parm[7]); 
-	float v3 	= stof(parm[8]);
-	float d 	= stof(parm[9]);
-	float hx 	= stof(parm[10]);
-	float hy 	= stof(parm[11]);
-	
-	return new Camera(Vetor(c1, c2, c3), Vetor(n1, n2, n3), Vetor(v1, v2, v3), d, hx, hy);
-}
-
-Light* SDLReader::read_light(string line)
-{
-	vector<string> parm = Util::split_on_separators(line," ");
-	float p1 = stof(parm[0]);  
-	float p2 = stof(parm[1]);  
-	float p3 = stof(parm[2]); 
-	float ip = stof(parm[3]); 
-	
-	int r 	= stoi(parm[4]);  
-	int g 	= stoi(parm[5]);
-	int b 	= stoi(parm[6]);
-	
-	return new Light(Vetor(p1,p2,p3), ip, Color(r,g,b));
-}
-
-Plane* SDLReader::read_plane(string line)
-{
-	vector<string> parm = Util::split_on_separators(line," ");
-	float a = stof(parm[0]);  
-	float b = stof(parm[1]);  
-	float c = stof(parm[2]); 
-	float d = stof(parm[3]);
-	float x0 = stof(parm[4]); 
-	float y0 = stof(parm[5]);
-	float z0 = stof(parm[6]);
-			
-	return new Plane(a, b, c, d, x0, y0, z0);
-}
-
-void SDLReader::read_sdl(string filename, Scene &scene)
-{
-	Util::read_file(filename, [&scene](string line){
-		switch (line[0])
-		{
-			case 'm':
-			{
-				Mesh *mesh = read_object(line.substr(2));
-				scene.add_mesh(mesh);
-				break;
-			}
-			case 'c':
-			{
-				Camera *camera = read_camera(line.substr(2));
-				scene.set_camera(camera);
-				break;
-			}
-			case 'l':
-			{
-				Light *light = read_light(line.substr(2));
-				scene.add_light(light);
-				break;
-			}
-			case 'p':
-			{
-				Plane *plane = read_plane(line.substr(2));
-				scene.set_plane(plane);
-				break;
-			}
-			case 'a':
-			{
-				
-				break;
-			}
-		}
+  Vector C, N, V;
+  float d, hx, hy;
+  Util::read_file(filename, [&C, &V, &N, &d, &hx, &hy](string line, int i) {
+    vector<string> parm = Util::split_on_separators(line," ");
+    float a = stof(parm[0]);
+    float b = stof(parm[1]);
+    float c = stof(parm[2]);
+    
+		switch(i)
+    {
+    	case 1:
+      	C = Vector(a, b, c);
+      	break;
+      case 2:
+      	N = Vector(a, b, c);
+      	break;
+      case 3:
+      	V = Vector(a, b, c);
+      	break;
+      case 4:
+      	d = a;
+      	hx = b;
+      	hy = c;
+      	break;
+    }
 	});
+	
+	return new Camera(C, N, V, d, hx, hy);
 }
 
+Light* SDLReader::read_light(string filename, Material **material)
+{
+  Color Il;
+  Vector Pl, Ia, Od;
+  float ka, kd, ks, n;
+  Util::read_file(filename, [&Pl, &Ia, &Od, &Il, &ka, &kd, &ks, &n](string line, int i) {
+    vector<string> parm = Util::split_on_separators(line," ");
+    
+		switch(i)
+    {
+    	case 1:
+      	Pl = Vector(stof(parm[0]), stof(parm[1]), stof(parm[2]));
+      	break;
+      case 2:
+      	ka = stof(parm[0]);
+      	break;
+      case 3:
+      	Ia = Vector(stof(parm[0]), stof(parm[1]), stof(parm[2]));
+      	break;
+      case 4:
+      	kd = stof(parm[0]);
+      	break;
+      case 5:
+      	Od = Vector(stof(parm[0]), stof(parm[1]), stof(parm[2]));
+      	break;
+      case 6:
+      	ks = stof(parm[0]);
+      	break;
+      case 7:
+      	Il = Color(stoi(parm[0]), stoi(parm[1]), stoi(parm[2]));
+      	break;
+      case 8:
+      	n = stof(parm[0]);
+      	break;
+    }
+  });
+  
+	*material = new Material(ka,kd,ks,n,Od);
+  return new Light(Pl, 1, Il);
+}
+
+Plane* SDLReader::read_plane(string filename)
+{
+  Plane *plane;
+	Util::read_file(filename, [&plane](string line, int i) {
+    if(i > 1) 
+      return;
+    
+    vector<string> parm = Util::split_on_separators(line," ");
+    float a = stof(parm[0]);  
+    float b = stof(parm[1]);  
+    float c = stof(parm[2]); 
+    float d = stof(parm[3]);
+    float x0 = stof(parm[4]); 
+    float y0 = stof(parm[5]);
+    float z0 = stof(parm[6]);
+
+    plane = new Plane(a, b, c, d, x0, y0, z0);
+  });
+  
+  return plane;
+}
+
+void SDLReader::read_sdl(Scene &scene, string file_object, string file_camera, string file_light, string file_plane)
+{
+  Camera *camera = read_camera(file_camera);
+  scene.set_camera(camera);
+  Material *material;
+  Light *light = read_light(file_light, &material);
+  scene.add_light(light);
+  Mesh *mesh = read_object(file_object, material);
+  scene.add_mesh(mesh);
+  Plane *plane = read_plane(file_plane);
+  scene.set_plane(plane);
+}
