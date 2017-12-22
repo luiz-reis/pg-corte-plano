@@ -12,6 +12,7 @@
 #endif
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "Vetor.h"
 #include "Scene.h"
 #include "SDLReader.h"
@@ -32,8 +33,8 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(50, 50); 		// Position the window's initial top-left corner
 	window = glutCreateWindow("OpenGL Setup Test"); 	// Create a window with the given title
 	glutDisplayFunc(draw); 					// Register display callback handler for window re-paint
-	glutKeyboardFunc(key_press);						//Register keyboard callback handler
-	initialize(argv[1], argv[2], argv[3], argv[4]);
+	glutKeyboardFunc(key_press);	//Register keyboard callback handler
+	initialize(argv[1], argv[2], argv[3], argc > 4 ? argv[4] : "");
 	glutMainLoop();           				// Enter the event-processing loop
 	return 0;
 }
@@ -52,15 +53,13 @@ void key_press(unsigned char key, int x, int y)
 }
 
 void initialize(string file_object, string file_camera, string file_light, string file_plane)
-{
+{	
 	scene = new Scene();
 	SDLReader::read_sdl(*scene, file_object, file_camera, file_light, file_plane);
-	
 	int m_viewport[4];
 	glGetIntegerv( GL_VIEWPORT, m_viewport);
 	scene->get_camera()->set_screen_res(m_viewport[2], m_viewport[3]); //width x height
 	scene->set_buffer(m_viewport[2], m_viewport[3]); //width x height
-	scene->set_la(Color(100, 100, 100));
 	scene->draw();
 }
 

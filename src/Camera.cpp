@@ -19,7 +19,6 @@ Camera::Camera(Vetor C, Vetor N, Vetor V, float d, float hx, float hy)
 	this->N.normalizar();
 	this->V = this->N * this->up; // vericar ordem para saber se nverte ou nao
 	
-	std::cout << this->up << this->N << this->V << std::endl;
 }
 
 Camera::~Camera()

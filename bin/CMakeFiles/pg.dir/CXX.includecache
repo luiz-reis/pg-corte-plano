@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -92,51 +92,51 @@ iostream
 cfloat
 -
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Camera.cpp
 Camera.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Camera.h
 cmath
 -
 iostream
 -
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Color.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Color.cpp
 Color.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Color.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Color.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Light.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Light.cpp
 Light.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Light.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Light.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Material.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Material.cpp
 Material.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Material.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Material.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Matrix4.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Matrix4.cpp
 Matrix4.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Matrix4.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Matrix4.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Mesh.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Mesh.cpp
 Mesh.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Mesh.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Mesh.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Plane.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Plane.cpp
 Plane.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Plane.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Plane.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/SDLReader.cpp
 SDLReader.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/SDLReader.h
 Util.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Util.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Util.h
 vector
 -
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Scene.cpp
 Scene.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Scene.h
 Util.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Util.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Util.h
 algorithm
 -
 cmath
@@ -146,31 +146,41 @@ iostream
 cfloat
 -
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Triangle.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Triangle.cpp
 Triangle.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Triangle.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Triangle.h
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Vetor.cpp
 Vetor.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Vetor.h
 cmath
 -
 
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/main.cpp
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/main.cpp
 OpenGL/gl.h
 -
 OpenGL/glu.h
 -
 GLUT/glut.h
 -
+windows.h
+-
+GL/gl.h
+-
+GL/glu.h
+-
+GL/glut.h
+-
 stdlib.h
 -
+stdio.h
+-
 Vetor.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Vetor.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Vetor.h
 Scene.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Scene.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Scene.h
 SDLReader.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/SDLReader.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/SDLReader.h
 Camera.h
-/Users/luizreis/Google Drive/UFPE/Processamento Gráfico/Projeto 2/pg-corte-plano/src/Camera.h
+/home/otavio/Área de Trabalho/PG/P2/pg-corte-plano/src/Camera.h
 

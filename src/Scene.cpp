@@ -203,10 +203,6 @@ void Scene::scan_line(Triangle triangle)
 	Vetor pvb = camera->world_to_screen(triangle.get_vb());
 	Vetor pvc = camera->world_to_screen(triangle.get_vc());
 	
-	std::cout << pva;
-	std::cout << pvb;
-	std::cout << pvc << std::endl;
-	
 	Vetor v[] = { pva, pvb, pvc };
 	
 	//ordeno vertices em y
@@ -428,12 +424,6 @@ void Scene::phong(Vetor point, Triangle triangle)
 	Vetor projected = Vetor::m_escalar(va, abg.x) + Vetor::m_escalar(vb, abg.y) + Vetor::m_escalar(vc, abg.z);
 	Vetor normal = Vetor::m_escalar(na, abg.x) + Vetor::m_escalar(nb, abg.y) + Vetor::m_escalar(nc, abg.z);
 			
-			
-	if(point.x == 500  && point.y == 50 ) {
-		std::cout << camera->world_to_screen(Vetor(0, 0, 10)) << endl;
-		std::cout << abg << std::endl;
-		std::cout << projected <<std::endl;
-	}		
 	if(projected.z >= get_val_zbuffer(point))
 		return;
 	

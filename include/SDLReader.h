@@ -10,12 +10,12 @@
 class SDLReader
 {
 private:
-	static Mesh* read_object(string filename, Material *material)
-	static Camera* read_camera(string filename)
-	static Light* read_light(string filename, Material **material)
-	static Plane* read_plane(string filename)
+	static Mesh* read_object(string filename, Material *material);
+	static Camera* read_camera(string filename);
+	static Light* read_light(string filename, Material **material, Scene &scene);
+	static Plane* read_plane(string filename);
 public:
-	static void read_sdl(Scene &scene, string file_object, string file_camera, string file_light, string file_plane)
+	static void read_sdl(Scene &scene, string file_object, string file_camera, string file_light, string file_plane);
 };
 
 #endif
