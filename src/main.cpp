@@ -7,7 +7,7 @@
 #include "SDLReader.h"
 #include "Camera.h"
 
-void initialize(string filename);
+void initialize(string file_object, string file_camera, string file_light, string file_plane);
 void draw();
 void key_press(unsigned char key, int x, int y);
 
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 	window = glutCreateWindow("OpenGL Setup Test"); 	// Create a window with the given title
 	glutDisplayFunc(draw); 					// Register display callback handler for window re-paint
 	glutKeyboardFunc(key_press);						//Register keyboard callback handler
-	initialize(argv[1]);
+	initialize(argv[1], argv[2], argv[3], argv[4]);
 	glutMainLoop();           				// Enter the event-processing loop
 	return 0;
 }
@@ -41,10 +41,10 @@ void key_press(unsigned char key, int x, int y)
 	}
 }
 
-void initialize(string filename)
+void initialize(string file_object, string file_camera, string file_light, string file_plane)
 {
 	scene = new Scene();
-	SDLReader::read_sdl(filename, *scene);
+	SDLReader::read_sdl(*scene, file_object, file_camera, file_light, file_plane);
 	
 	int m_viewport[4];
 	glGetIntegerv( GL_VIEWPORT, m_viewport);
